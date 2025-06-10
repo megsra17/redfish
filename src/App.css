@@ -2,37 +2,32 @@ html,
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
-}
-.smooth-wrapper {
-  overflow: hidden;
-}
-.smooth-content {
-  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* each panel = full-viewport slide */
 .panel {
+  position: relative;
+  width: 100%;
   height: 100vh;
   background-image: var(--bg);
   background-size: cover;
   background-position: center;
-  transform: scale(var(--zoom, 1));
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  will-change: transform, opacity;
   display: flex;
   align-items: center;
   justify-content: center;
+  perspective: 1200px;
+  /* initial bg will be images[0] */
+  background-image: url("https://picsum.photos/id/1015/1200/800");
 }
 
-/* parallax on nested elements (via data-speed) */
-.panel img,
-.panel .parallax {
-  will-change: transform;
-}
-
-/* your text content */
 .panel-content {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   padding: 2rem 4rem;
   border-radius: 8px;
+  font-size: 1.75rem;
+  font-weight: 600;
   text-align: center;
 }
