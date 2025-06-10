@@ -1,102 +1,87 @@
-import React, { useEffect, useRef } from "react";
+// src/App.js
+import React, { useEffect } from "react";
+import { ReactLenis, useLenis } from "lenis/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollSmoother from "gsap/ScrollSmoother";
 import "./App.css";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const bgImages = [
-  "url('https://picsum.photos/id/1015/1200/800')",
-  "url('https://picsum.photos/id/1016/1200/800')",
-  "url('https://picsum.photos/id/1018/1200/800')",
-  "url('https://picsum.photos/id/1020/1200/800')",
-];
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function App() {
-  const containerRef = useRef(null);
-  const bgRef = useRef(null);
+  // 1) get the Lenis instance
+  const lenis = useLenis();
 
+  // 2) drive GSAP’s ScrollTrigger off of Lenis’s RAF
   useEffect(() => {
-    // Preload images
-    bgImages.forEach((img) => {
-      const preloadImg = new Image();
-      preloadImg.src = img.replace(/url\(['"]?/, "").replace(/['"]?\)/, "");
+    if (!lenis) return;
+    const tick = (time) => {
+      lenis.raf(time);
+      ScrollTrigger.update();
+    };
+    gsap.ticker.add(tick);
+    return () => gsap.ticker.remove(tick);
+  }, [lenis]);
+
+  // 3) set up your ScrollSmoother/ScrollTrigger panels
+  useEffect(() => {
+    const smoother = ScrollSmoother.create({
+      wrapper: ".smooth-wrapper",
+      content: ".smooth-content",
+      smooth: 1.2,
+      effects: true,
     });
 
-    const panels = gsap.utils.toArray(".panel");
-
-    const setBackgroundImage = (index) => {
-      gsap.to(bgRef.current, {
-        opacity: 0,
-        duration: 0.2,
-        onComplete: () => {
-          bgRef.current.style.backgroundImage = bgImages[index];
-          gsap.to(bgRef.current, {
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.out",
-          });
-        },
-      });
-    };
-
-    panels.forEach((panel, i) => {
-      // Background zoom
-      gsap.to(bgRef.current, {
-        scale: 1.1,
-        scrollTrigger: {
-          trigger: panel,
-          start: "top center",
-          end: "bottom center",
-          scrub: 0.3,
-        },
-      });
-
-      // Background switch
-      ScrollTrigger.create({
-        trigger: panel,
-        start: "top center",
-        onEnter: () => setBackgroundImage(i),
-        onEnterBack: () => setBackgroundImage(i),
-      });
-
-      // Rotate panel content in
-      const content = panel.querySelector(".panel-content");
-      gsap.fromTo(
-        content,
-        { rotateY: 90, opacity: 0 },
-        {
-          rotateY: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power2.out",
+    document.querySelectorAll(".panel").forEach((panel) => {
+      gsap
+        .timeline({
           scrollTrigger: {
             trigger: panel,
-            start: "top 75%",
-            toggleActions: "play none none reverse",
-            onEnter: () => console.log("rotate triggered for panel", i),
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+            pin: true,
           },
-        }
-      );
+        })
+        .to(panel, { "--zoom": 1.1, duration: 1 })
+        .from(
+          panel.querySelector(".panel-content"),
+          {
+            y: 50,
+            opacity: 0,
+            duration: 0.6,
+          },
+          0
+        );
     });
+
+    return () => {
+      smoother.kill();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
   }, []);
 
   return (
-    <div className="scroll-container" ref={containerRef}>
-      <div className="background" ref={bgRef}></div>
-
-      <section className="panel">
-        <div className="panel-content">Panel 1</div>
-      </section>
-      <section className="panel">
-        <div className="panel-content">Panel 2</div>
-      </section>
-      <section className="panel">
-        <div className="panel-content">Panel 3</div>
-      </section>
-      <section className="panel">
-        <div className="panel-content">Panel 4</div>
-      </section>
-    </div>
+    <ReactLenis root options={{ duration: 1.2, smooth: true }}>
+      <div className="smooth-wrapper">
+        <div className="smooth-content">
+          {["1015", "1016", "1018", "1020"].map((id, i) => (
+            <section
+              key={i}
+              className="panel"
+              style={{
+                "--bg": `url('https://picsum.photos/id/${id}/1200/800')`,
+              }}
+              data-speed={1 - i * 0.2}
+            >
+              <div className="panel-content">
+                <h2>Slide {i + 1}</h2>
+                <p>Some text for panel {i + 1}.</p>
+              </div>
+            </section>
+          ))}
+        </div>
+      </div>
+    </ReactLenis>
   );
 }
