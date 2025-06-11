@@ -19,33 +19,29 @@ export default function AnimatedPanels() {
   const imageRefs = useRef([]);
 
   useLayoutEffect(() => {
-    // 🌀 Initialize Lenis
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
+    const lenis = new Lenis();
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
-    // Sync Lenis with GSAP ScrollTrigger
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-
-    // Build your image transition timeline
-    const scrollLength = (images.length - 1) * window.innerHeight;
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: wrapperRef.current,
         start: "top top",
-        end: `+=${scrollLength}`,
+        end: `+=${(images.length - 1) * 100}vh`,
         scrub: true,
         pin: panelRef.current,
-        invalidateOnRefresh: true,
+        anticipatePin: 1,
+        markers: true,
       },
     });
 
     images.forEach((_, i) => {
       if (i === 0) {
         gsap.set(imageRefs.current[i], {
-          zIndex: 0,
+          zIndex: i,
           opacity: 1,
           scale: 1,
           rotate: 0,
@@ -54,23 +50,33 @@ export default function AnimatedPanels() {
         gsap.set(imageRefs.current[i], {
           zIndex: i,
           opacity: 0,
-          scale: 1,
+          scale: 0.8,
           rotate: -45,
         });
-        tl.to(imageRefs.current[i - 1], { scale: 1.1, duration: 0.5 });
-        tl.to(
+
+        tl.fromTo(
           imageRefs.current[i],
-          { opacity: 1, rotate: 0, duration: 0.5 },
-          "<"
+          {
+            opacity: 0,
+            scale: 0.4,
+            rotateZ: -25,
+            zIndex: i,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotateZ: 0,
+            duration: 1,
+            ease: "power3.out",
+            zIndex: i,
+          }
         );
       }
     });
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => st.kill());
-      gsap.ticker.remove(() => lenis.raf);
       lenis.destroy();
-      tl.kill();
     };
   }, []);
 

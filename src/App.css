@@ -15,23 +15,12 @@ body.lenis {
   pointer-events: none;
 }
 
-html,
-body {
+body,
+html {
   margin: 0;
   padding: 0;
+  height: 100%;
   overflow-x: hidden;
-  height: 100%;
-  background: #000;
-}
-
-#smooth-wrapper {
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-#smooth-content {
-  height: 100%;
 }
 
 .panel {
@@ -39,6 +28,7 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  perspective: 1000px;
 }
 
 .image {
@@ -46,7 +36,6 @@ body {
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0;
-  transform: scale(1) rotate(0deg);
   will-change: transform, opacity;
+  transform-origin: center center;
 }
