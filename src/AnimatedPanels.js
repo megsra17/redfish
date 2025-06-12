@@ -44,18 +44,33 @@ export default function AnimatedPanels() {
     const lenis = new Lenis();
     let firstScroll = true;
 
+    const handleDirection = (e) => {
+      if (e.deltaY > 0) {
+        gsap.to(".arrow", { rotate: 0, duration: 0 }); // Down
+      } else if (e.deltaY < 0) {
+        gsap.to(".arrow", { rotate: 180, duration: 0 }); // Up
+      }
+    };
+
+    const handleTouch = (e) => {
+      const touchY = e.touches[0].clientY;
+      if (touchY < lastScrollY.current) {
+        gsap.to(".arrow", { rotate: 0, duration: 0 });
+      } else if (touchY > lastScrollY.current) {
+        gsap.to(".arrow", { rotate: 180, duration: 0 });
+      }
+      lastScrollY.current = touchY;
+    };
+
+    window.addEventListener("wheel", handleDirection);
+    window.addEventListener("touchmove", handleTouch);
+
     function raf(time) {
       const currentY = lenis.scroll;
 
       if (firstScroll) {
-        gsap.set(".arrow", { rotate: 180 }); // Force up on load
+        gsap.set(".arrow", { rotate: 180 }); // Default: up
         firstScroll = false;
-      }
-
-      if (currentY > lastScrollY.current) {
-        gsap.to(".arrow", { rotate: 0, duration: 0 }); // Down
-      } else if (currentY < lastScrollY.current) {
-        gsap.to(".arrow", { rotate: 180, duration: 0 }); // Up
       }
 
       lastScrollY.current = currentY;
@@ -118,6 +133,8 @@ export default function AnimatedPanels() {
     });
 
     return () => {
+      window.removeEventListener("wheel", handleDirection);
+      window.removeEventListener("touchmove", handleTouch);
       ScrollTrigger.getAll().forEach((st) => st.kill());
       lenis.destroy();
     };
@@ -157,6 +174,7 @@ export default function AnimatedPanels() {
           </div>
         ))}
       </div>
+
       <div className="slide-counter">
         {currentSlide} / {slides.length}
         <svg
