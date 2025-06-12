@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -6,7 +6,6 @@ import "./App.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Updated with dynamic content
 const slides = [
   {
     bg: "url('https://picsum.photos/id/1015/1200/800')",
@@ -39,10 +38,27 @@ export default function AnimatedPanels() {
   const panelRef = useRef(null);
   const imageRefs = useRef([]);
   const [currentSlide, setCurrentSlide] = useState(1);
+  const lastScrollY = useRef(0);
 
   useLayoutEffect(() => {
     const lenis = new Lenis();
+    let firstScroll = true;
+
     function raf(time) {
+      const currentY = lenis.scroll;
+
+      if (firstScroll) {
+        gsap.set(".arrow", { rotate: 180 }); // Force up on load
+        firstScroll = false;
+      }
+
+      if (currentY > lastScrollY.current) {
+        gsap.to(".arrow", { rotate: 0, duration: 0 }); // Down
+      } else if (currentY < lastScrollY.current) {
+        gsap.to(".arrow", { rotate: 180, duration: 0 }); // Up
+      }
+
+      lastScrollY.current = currentY;
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
@@ -95,11 +111,9 @@ export default function AnimatedPanels() {
             ease: "power3.out",
             zIndex: i,
           }
-        ).add(() => {
-          setCurrentSlide(i + 2);
-        });
+        );
 
-        tl.to({}, { duration: 1 }); // Small gap between animations
+        tl.to({}, { duration: 1 }); // Gap between slides
       }
     });
 
@@ -107,6 +121,17 @@ export default function AnimatedPanels() {
       ScrollTrigger.getAll().forEach((st) => st.kill());
       lenis.destroy();
     };
+  }, []);
+
+  useEffect(() => {
+    // Bouncing arrow animation
+    gsap.to(".arrow", {
+      y: -10,
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut",
+      duration: 0.8,
+    });
   }, []);
 
   return (
@@ -134,8 +159,23 @@ export default function AnimatedPanels() {
       </div>
       <div className="slide-counter">
         {currentSlide} / {slides.length}
+        <svg
+          className="arrow"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5V19M12 19L6 13M12 19L18 13"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
-      <div style={{ height: `${(slides.length - 1) * 100}vh` }} />
     </div>
   );
 }
