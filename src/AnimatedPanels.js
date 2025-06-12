@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,23 +10,27 @@ gsap.registerPlugin(ScrollTrigger);
 const slides = [
   {
     bg: "url('https://picsum.photos/id/1015/1200/800')",
-    heading: "Explore Nature",
-    subheading: "Adventure awaits in every step.",
+    title: "Mountain Escape",
+    heading: "Adventure Awaits",
+    subheading: "Explore nature’s beauty",
   },
   {
     bg: "url('https://picsum.photos/id/1016/1200/800')",
-    heading: "Desert Magic",
-    subheading: "Experience the warmth of solitude.",
+    title: "Seaside Serenity",
+    heading: "Calm the Soul",
+    subheading: "Feel the ocean breeze",
   },
   {
     bg: "url('https://picsum.photos/id/1018/1200/800')",
-    heading: "Coastal Escape",
-    subheading: "Where waves meet wonder.",
+    title: "Urban Journey",
+    heading: "City Lights",
+    subheading: "Find inspiration in the skyline",
   },
   {
     bg: "url('https://picsum.photos/id/1020/1200/800')",
-    heading: "Mountain Majesty",
-    subheading: "Reach new heights.",
+    title: "Forest Retreat",
+    heading: "Back to Nature",
+    subheading: "Rejuvenate among the trees",
   },
 ];
 
@@ -34,6 +38,7 @@ export default function AnimatedPanels() {
   const wrapperRef = useRef(null);
   const panelRef = useRef(null);
   const imageRefs = useRef([]);
+  const [currentSlide, setCurrentSlide] = useState(1);
 
   useLayoutEffect(() => {
     const lenis = new Lenis();
@@ -47,10 +52,14 @@ export default function AnimatedPanels() {
       scrollTrigger: {
         trigger: wrapperRef.current,
         start: "top top",
-        end: `+=${(slides.length - 1) * 100}vh`,
+        end: `+=${(slides.length - 1) * 500}vh`,
         scrub: true,
         pin: panelRef.current,
         anticipatePin: 1,
+        onUpdate: (self) => {
+          const index = Math.floor(self.progress * (slides.length - 1));
+          setCurrentSlide(index + 1);
+        },
       },
     });
 
@@ -86,7 +95,11 @@ export default function AnimatedPanels() {
             ease: "power3.out",
             zIndex: i,
           }
-        );
+        ).add(() => {
+          setCurrentSlide(i + 2);
+        });
+
+        tl.to({}, { duration: 1 }); // Small gap between animations
       }
     });
 
@@ -115,8 +128,12 @@ export default function AnimatedPanels() {
                 <button>View Project</button>
               </div>
             </div>
+            <div className="bottom-left-title">{slide.title}</div>
           </div>
         ))}
+      </div>
+      <div className="slide-counter">
+        {currentSlide} / {slides.length}
       </div>
       <div style={{ height: `${(slides.length - 1) * 100}vh` }} />
     </div>

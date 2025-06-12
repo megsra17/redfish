@@ -88,6 +88,30 @@ html {
   color: white;
 }
 
+.bottom-left-title {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  color: white;
+  font-size: 80px;
+  font-weight: 600;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  animation: fadeIn 1s ease-out both;
+}
+
+.slide-counter {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
 /* Simple keyframe for fade-in animation */
 @keyframes fadeInUp {
   from {
