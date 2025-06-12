@@ -6,11 +6,28 @@ import "./App.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const images = [
-  "url('https://picsum.photos/id/1015/1200/800')",
-  "url('https://picsum.photos/id/1016/1200/800')",
-  "url('https://picsum.photos/id/1018/1200/800')",
-  "url('https://picsum.photos/id/1020/1200/800')",
+// Updated with dynamic content
+const slides = [
+  {
+    bg: "url('https://picsum.photos/id/1015/1200/800')",
+    heading: "Explore Nature",
+    subheading: "Adventure awaits in every step.",
+  },
+  {
+    bg: "url('https://picsum.photos/id/1016/1200/800')",
+    heading: "Desert Magic",
+    subheading: "Experience the warmth of solitude.",
+  },
+  {
+    bg: "url('https://picsum.photos/id/1018/1200/800')",
+    heading: "Coastal Escape",
+    subheading: "Where waves meet wonder.",
+  },
+  {
+    bg: "url('https://picsum.photos/id/1020/1200/800')",
+    heading: "Mountain Majesty",
+    subheading: "Reach new heights.",
+  },
 ];
 
 export default function AnimatedPanels() {
@@ -30,15 +47,14 @@ export default function AnimatedPanels() {
       scrollTrigger: {
         trigger: wrapperRef.current,
         start: "top top",
-        end: `+=${(images.length - 1) * 100}vh`,
+        end: `+=${(slides.length - 1) * 100}vh`,
         scrub: true,
         pin: panelRef.current,
         anticipatePin: 1,
-        markers: true,
       },
     });
 
-    images.forEach((_, i) => {
+    slides.forEach((_, i) => {
       if (i === 0) {
         gsap.set(imageRefs.current[i], {
           zIndex: i,
@@ -51,7 +67,7 @@ export default function AnimatedPanels() {
           zIndex: i,
           opacity: 0,
           scale: 0.8,
-          rotate: -45,
+          rotateZ: -25,
         });
 
         tl.fromTo(
@@ -83,16 +99,26 @@ export default function AnimatedPanels() {
   return (
     <div ref={wrapperRef}>
       <div className="panel" ref={panelRef}>
-        {images.map((bg, i) => (
+        {slides.map((slide, i) => (
           <div
             key={i}
             ref={(el) => (imageRefs.current[i] = el)}
             className="image"
-            style={{ backgroundImage: bg }}
-          />
+            style={{ backgroundImage: slide.bg }}
+          >
+            <div className="overlay">
+              <div className="text-left">
+                <h1>{slide.heading}</h1>
+                <p>{slide.subheading}</p>
+              </div>
+              <div className="button-right">
+                <button>View Project</button>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
-      <div style={{ height: `${(images.length - 1) * 100}vh` }} />
+      <div style={{ height: `${(slides.length - 1) * 100}vh` }} />
     </div>
   );
 }
