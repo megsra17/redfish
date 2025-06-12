@@ -12,24 +12,28 @@ const slides = [
     title: "Mountain Escape",
     heading: "Adventure Awaits",
     subheading: "Explore nature’s beauty",
+    buttonRotate: -20,
   },
   {
     bg: "url('https://picsum.photos/id/1016/1200/800')",
     title: "Seaside Serenity",
     heading: "Calm the Soul",
     subheading: "Feel the ocean breeze",
+    buttonRotate: 50,
   },
   {
     bg: "url('https://picsum.photos/id/1018/1200/800')",
     title: "Urban Journey",
     heading: "City Lights",
     subheading: "Find inspiration in the skyline",
+    buttonRotate: -40,
   },
   {
     bg: "url('https://picsum.photos/id/1020/1200/800')",
     title: "Forest Retreat",
     heading: "Back to Nature",
     subheading: "Rejuvenate among the trees",
+    buttonRotate: 20,
   },
 ];
 
@@ -167,7 +171,16 @@ export default function AnimatedPanels() {
                 <p>{slide.subheading}</p>
               </div>
               <div className="button-right">
-                <button>View Project</button>
+                <button
+                  className="tilt-button"
+                  style={{ transform: `rotate(${slide.buttonRotate}deg)` }}
+                  onClick={(e) => {
+                    e.currentTarget.style.transition = "transform 0.3s ease";
+                    e.currentTarget.style.transform = "rotate(0deg)";
+                  }}
+                >
+                  View Project
+                </button>
               </div>
             </div>
             <div className="bottom-left-title">{slide.title}</div>

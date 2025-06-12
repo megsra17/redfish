@@ -81,11 +81,17 @@ html {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  border-radius: 15px;
+  text-transform: uppercase;
 }
 
 .image .button-right button:hover {
   background-color: black;
   color: white;
+}
+
+.tilt-button {
+  transition: transform 0.4s ease;
 }
 
 .bottom-left-title {
