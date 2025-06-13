@@ -185,7 +185,7 @@ export default function AnimatedPanels() {
                 </button>
               </div>
             </div>
-            <div className="bottom-left-title fs-4 fs-md-1">{slide.title}</div>
+            <div className="bottom-left-title">{slide.title}</div>
           </div>
         ))}
       </div>
