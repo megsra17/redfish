@@ -167,8 +167,8 @@ export default function AnimatedPanels() {
           >
             <div className="overlay w-100 px-4 h-100 d-flex align-items-center justify-content-between">
               <div className="text-left col-6 text-white">
-                <h1 className="display-4">{slide.heading}</h1>
-                <p className="lead">{slide.subheading}</p>
+                <h1 className="fs-2 fs-md-1">{slide.heading}</h1>
+                <p className="fs-6 fs-md-5">{slide.subheading}</p>
               </div>
               <div className="button-right col-auto">
                 <button
@@ -185,7 +185,7 @@ export default function AnimatedPanels() {
                 </button>
               </div>
             </div>
-            <div className="bottom-left-title">{slide.title}</div>
+            <div className="bottom-left-title fs-4 fs-md-1">{slide.title}</div>
           </div>
         ))}
       </div>

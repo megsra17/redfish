@@ -88,14 +88,13 @@ body.lenis {
 
 /* Title bottom-left */
 .bottom-left-title {
+  font-size: 2rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
   position: absolute;
   bottom: 2rem;
   left: 2rem;
   color: white;
-  font-size: 80px;
-  font-weight: 600;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-  animation: fadeIn 1s ease-out both;
 }
 
 /* Slide counter & arrow */
@@ -170,5 +169,11 @@ body.lenis {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media (max-width: 992px) {
+  .bottom-left-title {
+    font-size: 4rem;
   }
 }

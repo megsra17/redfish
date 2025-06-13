@@ -9,3 +9,42 @@
   width: 24px;
   height: 24px;
 }
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.letter-r,
+.letter-f,
+.rest-red,
+.rest-fish,
+.rf-f {
+  display: inline-block;
+}
+
+.rf-f {
+  opacity: 0;
+  transform: translateX(-5px);
+  width: 0;
+  overflow: hidden;
+}
+
+.nav-animated-link {
+  position: relative;
+  text-decoration: none;
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background-color: white;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
