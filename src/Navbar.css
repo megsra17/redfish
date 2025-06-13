@@ -48,3 +48,23 @@
   transform: scaleX(0);
   transform-origin: left center;
 }
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  z-index: 9999;
+  padding-top: 4rem;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+.mobile-menu a {
+  color: white;
+  text-decoration: none;
+}
+.mobile-menu .border-bottom {
+  border: none !important;
+}

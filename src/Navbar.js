@@ -13,6 +13,9 @@ export default function NavBar() {
   const [weather, setWeather] = useState(null);
   const fRef = useRef();
   const linkRefs = useRef([]);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const arrowRefs = useRef([]);
+  const mobileMenuRef = useRef(null);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -61,6 +64,32 @@ export default function NavBar() {
     });
   }, []);
 
+  useEffect(() => {
+    if (menuOpen && mobileMenuRef.current) {
+      // Animate the mobile menu container
+      gsap.fromTo(
+        mobileMenuRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power2.out" }
+      );
+
+      // Animate each arrow
+      arrowRefs.current.forEach((arrow, i) => {
+        gsap.fromTo(
+          arrow,
+          { x: "-100%", opacity: 0 },
+          {
+            x: "0%",
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            delay: 0.2 + i * 0.1, // stagger effect
+          }
+        );
+      });
+    }
+  }, [menuOpen]);
+
   return (
     <nav className="navbar navbar-expand-lg fixed-top bg-transparent px-4">
       <div className="container-fluid">
@@ -74,15 +103,10 @@ export default function NavBar() {
 
         {/* Toggler for mobile */}
         <button
-          className="navbar-toggler text-white border-0"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          className="btn btn-link text-white d-lg-none"
+          onClick={() => setMenuOpen(true)}
         >
-          <span className="navbar-toggler-icon" />
+          Menu
         </button>
 
         {/* Collapsible content */}
@@ -116,6 +140,60 @@ export default function NavBar() {
               alt={weather.desc}
             />
             <span>{weather.temp}°F</span>
+          </div>
+        )}
+
+        {menuOpen && (
+          <div
+            ref={mobileMenuRef}
+            className="mobile-menu d-flex flex-column text-white"
+          >
+            <div className="d-flex justify-content-between align-items-center px-4 pt-3">
+              <div className="weather-info text-white align-items-center gap-2">
+                <img
+                  src={`http://openweathermap.org/img/wn/${weather.icon}.png`}
+                  alt={weather.desc}
+                />
+                <span>{weather.temp}°F</span>
+              </div>
+              <button
+                className="btn text-white fs-5"
+                onClick={() => setMenuOpen(false)}
+              >
+                CLOSE
+              </button>
+            </div>
+
+            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-start px-4">
+              <div className="display-1 fw-bold mb-5">
+                <a
+                  href="/"
+                  className="nav-logo text-white text-decoration-none d-flex align-items-center"
+                >
+                  <img
+                    src="/images/redfish-logo.png"
+                    alt="RedFish Logo"
+                    height="80"
+                  />
+                </a>
+              </div>
+              {["Work", "Method", "About", "Contact"].map((label, i) => (
+                <a
+                  key={label}
+                  href={`#${label.toLowerCase()}`}
+                  className="fs-1 mb-4 d-flex justify-content-between w-100 border-bottom"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span>{label}</span>
+                  <span
+                    ref={(el) => (arrowRefs.current[i] = el)}
+                    className="arrow-slide"
+                  >
+                    →
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </div>
