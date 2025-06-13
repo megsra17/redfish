@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ReactLenis } from "lenis/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AnimatedPanels from "./AnimatedPanels";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
+import WorkPage from "./pages/WorkPage"; // Add your new pages here
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 import "./App.css";
 
 export default function App() {
@@ -15,8 +20,8 @@ export default function App() {
 
       setTimeout(() => {
         setLoading(false);
-      }, 800); // Match fade-out duration
-    }, 1500); // Wait before fading out
+      }, 800);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -34,10 +39,19 @@ export default function App() {
       )}
 
       {!loading && (
-        <ReactLenis root options={{ duration: 1.2, smooth: true }}>
-          <Navbar />
-          <AnimatedPanels />
-        </ReactLenis>
+        <Router>
+          <ReactLenis root options={{ duration: 1.2, smooth: true }}>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<AnimatedPanels />} />
+              <Route path="/work" element={<WorkPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              {/* Add more routes as needed */}
+            </Routes>
+            <Footer />
+          </ReactLenis>
+        </Router>
       )}
     </>
   );

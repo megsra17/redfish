@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import "./App.css";
+import "./AnimatedPanels.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -91,6 +91,18 @@ export default function AnimatedPanels() {
         scrub: true,
         pin: panelRef.current,
         anticipatePin: 1,
+        onEnter: () => {
+          document.querySelector(".slide-counter")?.classList.remove("hidden");
+        },
+        onLeave: () => {
+          document.querySelector(".slide-counter")?.classList.add("hidden");
+        },
+        onEnterBack: () => {
+          document.querySelector(".slide-counter")?.classList.remove("hidden");
+        },
+        onLeaveBack: () => {
+          document.querySelector(".slide-counter")?.classList.add("hidden");
+        },
         onUpdate: (self) => {
           const index = Math.floor(self.progress * (slides.length - 1));
           setCurrentSlide(index + 1);

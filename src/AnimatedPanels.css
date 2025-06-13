@@ -1,0 +1,166 @@
+/* Panel Layout */
+.panel {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+
+/* Overlay layout inside each image */
+.image .overlay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 2rem 4rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.2); /* Optional subtle overlay */
+}
+
+/* Left text box */
+.image .text-left {
+  max-width: 40%;
+  animation: fadeInUp 1s ease-out both;
+}
+
+.image .text-left h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.image .text-left p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Right button area */
+.image .button-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Tilted button with Bootstrap */
+.tilt-button {
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  background-color: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+  transform: rotate(var(--rotate-angle));
+  transition: transform 0.3s ease;
+  border-radius: 15px;
+  text-transform: uppercase;
+}
+
+/* Hover to straighten */
+.tilt-button:hover {
+  transform: rotate(0deg);
+}
+
+/* Title bottom-left */
+.bottom-left-title {
+  font-size: 4rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  color: white;
+}
+
+/* Slide counter & arrow */
+.slide-counter {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.slide-counter.hidden {
+  opacity: 0;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.1s linear;
+  transform: rotate(180deg);
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease-out;
+}
+
+.loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-logo {
+  width: 200px;
+  height: auto;
+  animation: popIn 0.6s ease-out;
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 992px) {
+  .bottom-left-title {
+    font-size: 1.5rem;
+  }
+}

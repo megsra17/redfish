@@ -1,0 +1,9 @@
+.footer-container {
+  background-color: #000;
+}
+
+.arrow {
+  font-size: 2rem;
+  display: inline-block;
+  transform: translateY(0.2rem);
+}
