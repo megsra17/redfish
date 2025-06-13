@@ -165,15 +165,21 @@ export default function AnimatedPanels() {
             className="image"
             style={{ backgroundImage: slide.bg }}
           >
-            <div className="overlay">
-              <div className="text-left">
-                <h1>{slide.heading}</h1>
-                <p>{slide.subheading}</p>
+            <div className="overlay w-100 px-4 h-100 d-flex align-items-center justify-content-between">
+              <div className="text-left col-6 text-white">
+                <h1 className="display-4">{slide.heading}</h1>
+                <p className="lead">{slide.subheading}</p>
               </div>
-              <div className="button-right">
+              <div className="button-right col-auto">
                 <button
-                  className="tilt-button"
-                  style={{ "--rotate-angle": `${slide.buttonRotate}deg` }}
+                  className="btn btn-light tilt-button"
+                  style={{ transform: `rotate(${slide.buttonRotate}deg)` }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "rotate(0deg)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = `rotate(${slide.buttonRotate}deg)`)
+                  }
                 >
                   View Project
                 </button>

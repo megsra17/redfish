@@ -1,3 +1,4 @@
+/* Lenis scroll styles */
 html.lenis,
 body.lenis {
   height: auto;
@@ -15,16 +16,7 @@ body.lenis {
   pointer-events: none;
 }
 
-/* AnimatedPanels */
-
-body,
-html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-x: hidden;
-}
-
+/* Panel Layout */
 .panel {
   position: relative;
   height: 100vh;
@@ -75,23 +67,7 @@ html {
   align-items: center;
 }
 
-.image .button-right button {
-  font-size: 1.2rem;
-  padding: 1rem 2rem;
-  background-color: white;
-  color: black;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 15px;
-  text-transform: uppercase;
-}
-
-.image .button-right button:hover {
-  background-color: black;
-  color: white;
-}
-
+/* Tilted button with Bootstrap */
 .tilt-button {
   font-size: 1.2rem;
   padding: 1rem 2rem;
@@ -101,12 +77,16 @@ html {
   cursor: pointer;
   transform: rotate(var(--rotate-angle));
   transition: transform 0.3s ease;
+  border-radius: 15px;
+  text-transform: uppercase;
 }
 
+/* Hover to straighten */
 .tilt-button:hover {
   transform: rotate(0deg);
 }
 
+/* Title bottom-left */
 .bottom-left-title {
   position: absolute;
   bottom: 2rem;
@@ -118,6 +98,7 @@ html {
   animation: fadeIn 1s ease-out both;
 }
 
+/* Slide counter & arrow */
 .slide-counter {
   position: fixed;
   bottom: 1rem;
@@ -134,22 +115,10 @@ html {
 .arrow {
   display: inline-block;
   transition: transform 0.1s linear;
-  transform: rotate(180deg); /* Default: up */
+  transform: rotate(180deg);
 }
 
-/* Simple keyframe for fade-in animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* App.js */
+/* Loading Screen */
 .loading-screen {
   position: fixed;
   inset: 0;
@@ -170,6 +139,27 @@ html {
   width: 200px;
   height: auto;
   animation: popIn 0.6s ease-out;
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes popIn {

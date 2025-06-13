@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ReactLenis } from "lenis/react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import AnimatedPanels from "./AnimatedPanels";
-import "./App.css"; // Make sure this includes your loader styles
+import Navbar from "./Navbar";
+import "./App.css";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -33,6 +35,7 @@ export default function App() {
 
       {!loading && (
         <ReactLenis root options={{ duration: 1.2, smooth: true }}>
+          <Navbar />
           <AnimatedPanels />
         </ReactLenis>
       )}

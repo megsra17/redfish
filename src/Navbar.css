@@ -1,0 +1,11 @@
+.weather-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white; /* keep if your navbar background is dark */
+}
+
+.weather-info img {
+  width: 24px;
+  height: 24px;
+}
