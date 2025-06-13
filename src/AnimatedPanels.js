@@ -173,11 +173,7 @@ export default function AnimatedPanels() {
               <div className="button-right">
                 <button
                   className="tilt-button"
-                  style={{ transform: `rotate(${slide.buttonRotate}deg)` }}
-                  onClick={(e) => {
-                    e.currentTarget.style.transition = "transform 0.3s ease";
-                    e.currentTarget.style.transform = "rotate(0deg)";
-                  }}
+                  style={{ "--rotate-angle": `${slide.buttonRotate}deg` }}
                 >
                   View Project
                 </button>
