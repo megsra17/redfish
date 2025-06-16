@@ -13,19 +13,35 @@ export default function Footer() {
     const rotations = [-15, 10, -5, 20, -10]; // example unique rotations
 
     const handleHover = () => {
+      const rotations = [-15, 10, -5, 20, -10];
+      const xStart = [-300, 250, -150, 200, 180]; // start x
+      const yStart = [
+        window.innerHeight + 50,
+        window.innerHeight + 80,
+        window.innerHeight + 30,
+        window.innerHeight + 100,
+        window.innerHeight + 60,
+      ]; // start y
+      const xEnd = [-80, -40, 0, 40, 80]; // end x
+      const yEnd = [-40, 10, -30, 20, -10]; // end y
+
       imageGroupRef.current.forEach((el, i) => {
+        gsap.set(el, {
+          visibility: "visible",
+        });
+
         gsap.fromTo(
           el,
           {
-            x: 0,
-            y: window.innerHeight,
+            x: xStart[i],
+            y: yStart[i],
             opacity: 0,
             scale: 0.8,
             rotate: 0,
           },
           {
-            x: 0,
-            y: 0,
+            x: xEnd[i],
+            y: yEnd[i],
             opacity: 1,
             scale: 1,
             rotate: rotations[i],
