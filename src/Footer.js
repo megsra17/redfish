@@ -76,6 +76,37 @@ export default function Footer() {
     };
   }, []);
 
+  useEffect(() => {
+    const button = nowBtnRef.current;
+    if (!button) return;
+
+    const originalWidth = button.offsetWidth;
+
+    const expand = () => {
+      gsap.to(button, {
+        width: originalWidth + 250, // how much more to expand
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    };
+
+    const contract = () => {
+      gsap.to(button, {
+        width: originalWidth,
+        duration: 0.4,
+        ease: "power2.in",
+      });
+    };
+
+    button.addEventListener("mouseenter", expand);
+    button.addEventListener("mouseleave", contract);
+
+    return () => {
+      button.removeEventListener("mouseenter", expand);
+      button.removeEventListener("mouseleave", contract);
+    };
+  }, []);
+
   return (
     <footer className="footer-container text-white position-relative overflow-hidden">
       <div className="container-fluid d-flex flex-column justify-content-between min-vh-100 py-5">
@@ -94,9 +125,9 @@ export default function Footer() {
               </p>
               <button
                 ref={nowBtnRef}
-                className="btn btn-outline-light btn-lg rounded-pill px-5 fs-55"
+                className="btn btn-outline-light btn-lg rounded-pill px-5 fs-55 btn-expand-left"
               >
-                NOW
+                <span>NOW</span>
               </button>
             </div>
           </div>
