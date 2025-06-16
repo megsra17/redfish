@@ -5,6 +5,9 @@ import "./Footer.css";
 export default function Footer() {
   const imageGroupRef = useRef([]);
   const nowBtnRef = useRef(null);
+  const helloRef = useRef(null);
+  const arrowRightRef = useRef(null);
+  const arrowDownRef = useRef(null);
 
   useEffect(() => {
     const button = nowBtnRef.current;
@@ -107,6 +110,56 @@ export default function Footer() {
     };
   }, []);
 
+  useEffect(() => {
+    gsap.set(arrowDownRef.current, { autoAlpha: 0, y: -20 });
+  }, []);
+
+  const handleEmailHoverIn = () => {
+    gsap.to(arrowRightRef.current, {
+      x: 30,
+      autoAlpha: 0,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+
+    gsap.to(helloRef.current, {
+      x: 20,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+
+    gsap.to(arrowDownRef.current, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.3,
+      ease: "power2.out",
+      delay: 0.1,
+    });
+  };
+
+  const handleEmailHoverOut = () => {
+    gsap.to(arrowRightRef.current, {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.3,
+      ease: "power2.in",
+      delay: 0.1,
+    });
+
+    gsap.to(helloRef.current, {
+      x: 0,
+      duration: 0.3,
+      ease: "power2.in",
+    });
+
+    gsap.to(arrowDownRef.current, {
+      autoAlpha: 0,
+      y: -20,
+      duration: 0.3,
+      ease: "power2.in",
+    });
+  };
+
   return (
     <footer className="footer-container text-white position-relative overflow-hidden">
       <div className="container-fluid d-flex flex-column justify-content-between min-vh-100 py-5">
@@ -143,11 +196,28 @@ export default function Footer() {
               <br />
               or just to say hello!
             </p>
-            <h1 className="display-3 fw-bold mb-0">
-              HELLO<span className="arrow ms-2">→</span>
-              <br />
-              @REDFISH.COM
-            </h1>
+            <div
+              className="footer-email-group"
+              onMouseEnter={handleEmailHoverIn}
+              onMouseLeave={handleEmailHoverOut}
+            >
+              <div className="d-flex align-items-center gap-3">
+                <div
+                  ref={arrowDownRef}
+                  className="fs-1"
+                  style={{ position: "relative", top: "4px" }} // slight vertical alignment
+                >
+                  ↓
+                </div>
+                <h1 ref={helloRef} className="display-3 fw-bold mb-0">
+                  HELLO
+                </h1>
+                <div ref={arrowRightRef} className="fs-1">
+                  →
+                </div>
+              </div>
+              <h1 className="display-3 fw-bold">@REDFISH.COM</h1>
+            </div>
           </div>
 
           <div className="col-lg-6 col-md-12 d-flex flex-column align-items-end justify-content-end mt-4 mt-lg-0">
