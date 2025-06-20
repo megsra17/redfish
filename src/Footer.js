@@ -146,7 +146,7 @@ export default function Footer() {
     });
 
     gsap.to(helloRef.current, {
-      x: 60,
+      x: 20,
       duration: 0.3,
       ease: "power2.out",
     });
@@ -177,7 +177,7 @@ export default function Footer() {
 
     gsap.to(arrowDownRef.current, {
       autoAlpha: 0,
-      y: -90,
+      y: -20,
       duration: 0.3,
       ease: "power2.in",
     });
@@ -224,17 +224,15 @@ export default function Footer() {
               onMouseEnter={handleEmailHoverIn}
               onMouseLeave={handleEmailHoverOut}
             >
-              <div className="position-relative d-inline-block">
+              <div className="d-flex align-items-center gap-3">
                 {/* ↓ Arrow above HELLO */}
                 <div
                   ref={arrowDownRef}
-                  className="fs-1 position-absolute"
-                  style={{
-                    top: "-30px", // ABOVE "HELLO"
-                    left: "0",
-                    transform: "translateX(-20%)", // small offset for alignment
-                    pointerEvents: "none",
-                  }}
+                  className="fs-1"
+                  Add
+                  commentMore
+                  actions
+                  style={{ position: "relative", top: "4px" }} // slight vertical alignment
                 >
                   ↓
                 </div>
