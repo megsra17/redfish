@@ -8,6 +8,7 @@ export default function Footer() {
   const helloRef = useRef(null);
   const arrowRightRef = useRef(null);
   const arrowDownRef = useRef(null);
+  const linkRefs = useRef([]);
 
   useEffect(() => {
     const button = nowBtnRef.current;
@@ -114,6 +115,28 @@ export default function Footer() {
     gsap.set(arrowDownRef.current, { autoAlpha: 0, y: -20 });
   }, []);
 
+  useEffect(() => {
+    linkRefs.current.forEach((el) => {
+      const underline = el.querySelector(".underline");
+
+      el.addEventListener("mouseenter", () => {
+        gsap.to(underline, {
+          scaleX: 1,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+
+      el.addEventListener("mouseleave", () => {
+        gsap.to(underline, {
+          scaleX: 0,
+          duration: 0.3,
+          ease: "power2.in",
+        });
+      });
+    });
+  }, []);
+
   const handleEmailHoverIn = () => {
     gsap.to(arrowRightRef.current, {
       x: 30,
@@ -123,7 +146,7 @@ export default function Footer() {
     });
 
     gsap.to(helloRef.current, {
-      x: 20,
+      x: 60,
       duration: 0.3,
       ease: "power2.out",
     });
@@ -154,7 +177,7 @@ export default function Footer() {
 
     gsap.to(arrowDownRef.current, {
       autoAlpha: 0,
-      y: -20,
+      y: -90,
       duration: 0.3,
       ease: "power2.in",
     });
@@ -201,19 +224,36 @@ export default function Footer() {
               onMouseEnter={handleEmailHoverIn}
               onMouseLeave={handleEmailHoverOut}
             >
-              <div className="d-flex align-items-center gap-3">
+              <div className="position-relative d-inline-block">
+                {/* ↓ Arrow above HELLO */}
                 <div
                   ref={arrowDownRef}
-                  className="fs-1"
-                  style={{ position: "relative", top: "4px" }} // slight vertical alignment
+                  className="fs-1 position-absolute"
+                  style={{
+                    top: "-30px", // ABOVE "HELLO"
+                    left: "0",
+                    transform: "translateX(-20%)", // small offset for alignment
+                    pointerEvents: "none",
+                  }}
                 >
                   ↓
                 </div>
-                <h1 ref={helloRef} className="display-3 fw-bold mb-0">
-                  HELLO
-                </h1>
-                <div ref={arrowRightRef} className="fs-1">
-                  →
+
+                <div className="d-flex align-items-center">
+                  <h1
+                    ref={helloRef}
+                    className="display-3 fw-bold mb-0"
+                    style={{ marginRight: "10px" }}
+                  >
+                    HELLO
+                  </h1>
+                  <div
+                    ref={arrowRightRef}
+                    className="fs-1"
+                    style={{ position: "relative", top: "4px" }}
+                  >
+                    →
+                  </div>
                 </div>
               </div>
               <h1 className="display-3 fw-bold">@REDFISH.COM</h1>
@@ -223,13 +263,15 @@ export default function Footer() {
           <div className="col-lg-6 col-md-12 d-flex flex-column align-items-end justify-content-end mt-4 mt-lg-0">
             <span className="small">PRIVACY AND COOKIES</span>
             <div className="d-flex gap-3 mt-2">
-              {["IG", "BE", "IN", "DB"].map((label) => (
+              {["IG", "BE", "IN", "DB"].map((label, i) => (
                 <a
                   key={label}
                   href="#"
-                  className="text-white text-decoration-none small"
+                  className="text-white text-decoration-none small position-relative link-underline"
+                  ref={(el) => (linkRefs.current[i] = el)}
                 >
                   {label}
+                  <span className="underline position-absolute bottom-0 start-0"></span>
                 </a>
               ))}
             </div>
