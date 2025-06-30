@@ -60,3 +60,33 @@
   left: 0;
   display: block;
 }
+
+.email-lockup {
+  display: inline-block;
+  text-align: left;
+}
+
+.email-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.arrow-down {
+  opacity: 0;
+  transform: translateX(-20px);
+  display: inline-block;
+}
+
+.hello-text {
+  display: inline-block;
+  margin: 0;
+  font-size: 3.5rem;
+}
+
+.arrow-right {
+  display: inline-block;
+  transform: translateX(0);
+  opacity: 1;
+}

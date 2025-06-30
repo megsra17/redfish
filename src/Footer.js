@@ -153,7 +153,7 @@ export default function Footer() {
 
     gsap.to(arrowDownRef.current, {
       autoAlpha: 1,
-      y: 0,
+      x: 0,
       duration: 0.3,
       ease: "power2.out",
       delay: 0.1,
@@ -177,7 +177,7 @@ export default function Footer() {
 
     gsap.to(arrowDownRef.current, {
       autoAlpha: 0,
-      y: -20,
+      x: -20,
       duration: 0.3,
       ease: "power2.in",
     });
@@ -224,37 +224,55 @@ export default function Footer() {
               onMouseEnter={handleEmailHoverIn}
               onMouseLeave={handleEmailHoverOut}
             >
-              <div className="d-flex align-items-center gap-3">
-                {/* ↓ Arrow above HELLO */}
-                <div
-                  ref={arrowDownRef}
-                  className="fs-1"
-                  Add
-                  commentMore
-                  actions
-                  style={{ position: "relative", top: "4px" }} // slight vertical alignment
-                >
-                  ↓
-                </div>
-
-                <div className="d-flex align-items-center">
-                  <h1
-                    ref={helloRef}
-                    className="display-3 fw-bold mb-0"
-                    style={{ marginRight: "10px" }}
-                  >
+              <div className="email-lockup">
+                <div className="email-top">
+                  {/* Down arrow */}
+                  <span ref={arrowDownRef} className="arrow-down">
+                    <svg
+                      width="57"
+                      height="44"
+                      viewBox="0 0 57 44"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{
+                        transform: "rotate(90deg)",
+                        verticalAlign: "middle",
+                        position: "relative",
+                        top: "8px",
+                      }}
+                    >
+                      <path
+                        d="M36.2019 0.384467L31.8819 4.30447L45.8819 19.1845L0.921874 19.1845L0.921874 24.7845L45.8819 24.7845L31.8819 39.6645L36.2019 43.5845L56.2019 21.9845L36.2019 0.384467Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </span>
+                  {/* HELLO */}
+                  <h1 ref={helloRef} className="hello-text">
                     HELLO
                   </h1>
-                  <div
-                    ref={arrowRightRef}
-                    className="fs-1"
-                    style={{ position: "relative", top: "4px" }}
-                  >
-                    →
-                  </div>
+
+                  {/* Right arrow */}
+                  <span ref={arrowRightRef} className="arrow-right">
+                    <svg
+                      width="57"
+                      height="44"
+                      viewBox="0 0 57 44"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M36.2019 0.384467L31.8819 4.30447L45.8819 19.1845L0.921874 19.1845L0.921874 24.7845L45.8819 24.7845L31.8819 39.6645L36.2019 43.5845L56.2019 21.9845L36.2019 0.384467Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <div className="email-bottom">
+                  <h1 className="display-3 fw-bold">@REDFISH.COM</h1>
                 </div>
               </div>
-              <h1 className="display-3 fw-bold">@REDFISH.COM</h1>
             </div>
           </div>
 
